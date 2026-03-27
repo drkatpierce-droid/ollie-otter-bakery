@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ollie Otter Bakery – Strings &amp; Things Event</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Dancing+Script:wght@700&display=swap" rel="stylesheet"/>
+  <script src="https://web.squarecdn.com/v1/square.js"></script>
+  <style>
+    :root {
+      --blush:      #f9e0e8;
+      --rose:       #e8a0b4;
+      --deep-rose:  #c9607a;
+      --gold:       #c9a227;
+      --gold-light: #e8c96a;
+      --cream:      #fdf6f0;
+      --brown:      #6b3a2a;
+      --text:       #3a1f1f;
+      --white:      #ffffff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Cormorant Garamond', serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(253,246,240,0.92); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 2rem; box-shadow: 0 2px 20px rgba(232,160,180,0.15);
+    }
+    .nav-brand { font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--deep-rose); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--brown); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--deep-rose); }
+
+    .hero {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 20% 50%, #fce4ec 0%, transparent 55%),
+                  radial-gradient(ellipse at 80% 20%, #ffd6e7 0%, transparent 50%),
+                  radial-gradient(ellipse at 60% 80%, #ffe4b5 0%, transparent 45%),
+                  var(--cream);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem; padding-top: 80px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle, var(--gold) 1.5px, transparent 1.5px), radial-gradient(circle, var(--rose) 1px, transparent 1px);
+      background-size: 60px 60px, 30px 30px; background-position: 0 0, 15px 15px;
+      opacity: 0.25; pointer-events: none;
+    }
+    .hero-logo { width: min(340px, 80vw); animation: floatUp 1s ease both; filter: drop-shadow(0 8px 24px rgba(201,162,39,0.18)); }
+    .hero-tagline { font-style: italic; font-size: clamp(1.1rem,3vw,1.5rem); color: var(--deep-rose); margin-top: 0.5rem; animation: floatUp 1s 0.2s ease both; opacity: 0; }
+    .hero-sub { font-size: clamp(0.85rem,2vw,1rem); color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase; margin-top: 0.4rem; animation: floatUp 1s 0.35s ease both; opacity: 0; }
+    .hero-cta { margin-top: 2.2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; animation: floatUp 1s 0.5s ease both; opacity: 0; }
+
+    .btn { padding: 0.8rem 2rem; border-radius: 50px; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block; border: none; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--brown); box-shadow: 0 4px 14px rgba(201,162,39,0.35); }
+    .btn-outline { background: transparent; border: 2px solid var(--deep-rose); color: var(--deep-rose); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+    section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title { font-family: 'Dancing Script', cursive; font-size: clamp(2rem,5vw,3rem); color: var(--deep-rose); text-align: center; margin-bottom: 0.4rem; }
+    .section-rule { width: 80px; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); margin: 0 auto 3rem; border-radius: 2px; }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.6rem; max-width: 560px; margin: 0 auto; }
+    .menu-card { background: var(--white); border-radius: 20px; padding: 1.8rem 1.5rem; text-align: center; box-shadow: 0 4px 20px rgba(232,160,180,0.15); border: 1px solid rgba(232,160,180,0.3); transition: transform 0.25s, box-shadow 0.25s; position: relative; overflow: hidden; }
+    .menu-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--rose), var(--gold)); transform: scaleX(0); transition: transform 0.3s; }
+    .menu-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(232,160,180,0.3); }
+    .menu-card:hover::after { transform: scaleX(1); }
+    .menu-emoji { font-size: 2.8rem; margin-bottom: 0.7rem; }
+    .menu-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--brown); margin-bottom: 0.3rem; }
+    .menu-desc { font-size: 0.88rem; color: #888; font-style: italic; margin-bottom: 0.8rem; }
+    .menu-price { font-size: 1.15rem; font-weight: 700; color: var(--gold); }
+
+    .order-form-wrap { background: var(--white); border-radius: 24px; padding: 2.5rem; box-shadow: 0 8px 40px rgba(232,160,180,0.18); border: 1px solid rgba(232,160,180,0.25); }
+    .order-item-row { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 0; border-bottom: 1px dashed rgba(232,160,180,0.4); }
+    .order-item-name { font-family: 'Playfair Display', serif; font-weight: 600; color: var(--brown); font-size: 0.95rem; }
+    .order-item-desc { font-size: 0.82rem; color: #888; font-style: italic; margin: 0.3rem 0 0.4rem; line-height: 1.5; }
+    .order-item-price { color: var(--gold); font-weight: 700; margin-top: 0.2rem; }
+    .qty-control { display: flex; align-items: center; gap: 0.6rem; }
+    .qty-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--rose); background: transparent; color: var(--deep-rose); font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+    .qty-btn:hover { background: var(--blush); }
+    .qty-num { min-width: 20px; text-align: center; font-weight: 700; }
+    .order-total { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 2px solid var(--blush); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--brown); }
+    #card-container { margin-top: 1.5rem; padding: 1rem; border: 1.5px solid rgba(232,160,180,0.5); border-radius: 12px; background: #fdf6f0; min-height: 80px; }
+    #payment-status { margin-top: 1rem; text-align: center; font-style: italic; color: var(--deep-rose); min-height: 1.4em; font-size: 1rem; }
+    #pay-btn { width: 100%; margin-top: 1.2rem; padding: 1rem; font-size: 1.1rem; letter-spacing: 0.05em; }
+
+    .about-flex { display: flex; gap: 3rem; align-items: center; flex-wrap: wrap; }
+    .about-text { flex: 1; min-width: 260px; }
+    .about-text p { font-size: 1.1rem; line-height: 1.9; color: #5a3030; margin-bottom: 1rem; }
+    .about-img-wrap { flex: 0 0 260px; display: flex; justify-content: center; }
+    .about-img-wrap img { width: 220px; filter: drop-shadow(0 8px 20px rgba(201,96,122,0.2)); animation: sway 4s ease-in-out infinite; }
+
+    footer { background: var(--brown); color: #f5d0da; text-align: center; padding: 2.5rem 1rem; }
+    footer .footer-logo { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--gold-light); }
+    footer p { font-size: 0.9rem; margin-top: 0.4rem; opacity: 0.8; }
+
+    @keyframes floatUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+    @media (max-width: 600px) { nav { padding: 0.7rem 1rem; } .nav-links { gap: 1rem; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Ollie Otter Bakery</span>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#order">Order</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <img class="hero-logo" src="ollie_instagram.png" alt="Ollie Otter Bakery Logo"/>
+  <p class="hero-tagline">Sweetening the Strings &amp; Things Event 🎶</p>
+  <p class="hero-sub">Fresh Baked · One Night Only · Point Roberts, WA</p>
+  <div class="hero-cta">
+    <a href="#order" class="btn btn-primary">Order Now</a>
+    <a href="#menu" class="btn btn-outline">See Our Menu</a>
+  </div>
+</div>
+
+<section id="menu">
+  <h2 class="section-title">Tonight's Treats</h2>
+  <div class="section-rule"></div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="menu-emoji">🍪</div>
+      <div class="menu-name">Cookie Flight</div>
+      <div class="menu-desc">A delightful assortment of fresh-baked cookies</div>
+      <div class="menu-price">$8.00</div>
+    </div>
+    <div class="menu-card">
+      <div class="menu-emoji">🧁</div>
+      <div class="menu-name">Cupcake Flight</div>
+      <div class="menu-desc">A sweet sampler of our signature cupcakes</div>
+      <div class="menu-price">$8.00</div>
+    </div>
+  </div>
+</section>
+
+<section id="order" style="max-width:860px;">
+  <h2 class="section-title">Place Your Order</h2>
+  <div class="section-rule"></div>
+  <div class="order-form-wrap">
+    <div id="order-items">
+      <div class="order-item-row" data-price="8">
+        <div style="flex:1; padding-right:1rem;">
+          <div class="order-item-name">🍪 Cookie Flight</div>
+          <div class="order-item-desc">Embark on a delightful tasting adventure with our signature Cookie Flight featuring four artisan cookies, one from each of our most beloved varieties: Churro, Old Fashioned Chocolate Chip, Magic (coconut, chocolate, toffee) and WestWind (oats, pecans, white chocolate, cranberries).</div>
+          <div class="order-item-price">$8.00</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+          <span class="qty-num">0</span>
+          <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+        </div>
+      </div>
+      <div class="order-item-row" data-price="8">
+        <div style="flex:1; padding-right:1rem;">
+          <div class="order-item-name">🧁 Cupcake Flight</div>
+          <div class="order-item-desc">Take your taste buds on a delightful journey with our premium Cupcake Flight featuring four artisan cupcakes: Chocolate Peanut Butter, Classic Chocolate, Lavender and Earl Grey, and Lemon.</div>
+          <div class="order-item-price">$8.00</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(this,-1)">−</button>
+          <span class="qty-num">0</span>
+          <button class="qty-btn" onclick="changeQty(this,1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="order-total">
+      <span>Total</span>
+      <span id="total-display">$0.00</span>
+    </div>
+    <div id="card-container"></div>
+    <div id="payment-status"></div>
+    <button id="pay-btn" class="btn btn-primary" onclick="handlePayment()">💳 Pay with Card</button>
+  </div>
+</section>
+
+<section id="about">
+  <h2 class="section-title">About Ollie</h2>
+  <div class="section-rule"></div>
+  <div class="about-flex">
+    <div class="about-text">
+      <p>Welcome to the Strings &amp; Things event! Ollie Otter Bakery is so excited to be here bringing you fresh, handcrafted treats baked with love from Point Roberts, WA.</p>
+      <p>Tonight we're offering two special flights — a Cookie Flight and a Cupcake Flight, each just $8. Grab one, or grab both! 🦦🎶</p>
+      <p>Thank you for supporting a small local bakery. We hope these treats make your evening even sweeter!</p>
+      <a href="#order" class="btn btn-primary" style="margin-top:0.5rem;">Order Now</a>
+    </div>
+    <div class="about-img-wrap">
+      <img src="ollie_instagram.png" alt="Ollie Otter Bakery"/>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Ollie Otter Bakery</div>
+  <p>Point Roberts, WA &nbsp;·&nbsp; Made fresh with love</p>
+  <p style="margin-top:1rem; font-size:0.75rem; opacity:0.5;">© 2026 Ollie Otter Bakery. All rights reserved.</p>
+</footer>
+
+<script>
+  // ── ORDER LOGIC ──
+  let total = 0;
+
+  function changeQty(btn, delta) {
+    const row = btn.closest('.order-item-row');
+    const numEl = row.querySelector('.qty-num');
+    let qty = parseInt(numEl.textContent);
+    qty = Math.max(0, qty + delta);
+    numEl.textContent = qty;
+    recalcTotal();
+  }
+
+  function recalcTotal() {
+    total = 0;
+    document.querySelectorAll('.order-item-row').forEach(row => {
+      const qty = parseInt(row.querySelector('.qty-num').textContent);
+      const price = parseFloat(row.dataset.price);
+      total += qty * price;
+    });
+    document.getElementById('total-display').textContent = '$' + total.toFixed(2);
+  }
+
+  // ── SQUARE CREDENTIALS ──
+  // After the event, go to developer.squareup.com and click Replace next to
+  // your Production Access Token to deactivate this one.
+  const APP_ID       = 'sq0idp-8b3xbIkaOUcTd2ltvYz45A';
+  const LOCATION_ID  = 'LAH4ZQRPMBD3S';
+  const ACCESS_TOKEN = 'EAAAlx2cBPOyNOvxkW_o35C9qPLcVEhYVaQYpXBn3v76rLdzddGr3BMUO_WU_ivz';
+
+  let payments, card;
+
+  async function initSquare() {
+    try {
+      payments = window.Square.payments(APP_ID, LOCATION_ID);
+      card = await payments.card({
+        style: {
+          '.input-container': { borderColor: '#e8a0b4', borderRadius: '8px' },
+          '.input-container.is-focus': { borderColor: '#c9607a' },
+          input: { color: '#3a1f1f', fontFamily: 'serif' },
+          'input::placeholder': { color: '#c9a08a' }
+        }
+      });
+      await card.attach('#card-container');
+    } catch(e) {
+      document.getElementById('card-container').innerHTML =
+        '<p style="color:#c9607a;font-style:italic;font-size:0.9rem;padding:0.5rem;">Could not load payment form. Please refresh and try again.</p>';
+      console.error(e);
+    }
+  }
+
+  function buildOrderNote() {
+    let parts = [];
+    document.querySelectorAll('.order-item-row').forEach(row => {
+      const qty = parseInt(row.querySelector('.qty-num').textContent);
+      if (qty > 0) parts.push(qty + 'x ' + row.querySelector('.order-item-name').textContent);
+    });
+    return 'Strings & Things Event: ' + parts.join(', ');
+  }
+
+  async function handlePayment() {
+    const statusEl = document.getElementById('payment-status');
+    const payBtn   = document.getElementById('pay-btn');
+
+    if (total <= 0) { statusEl.textContent = 'Please add at least one item to your order!'; return; }
+    if (!card)      { statusEl.textContent = 'Payment form not ready. Please refresh and try again.'; return; }
+
+    statusEl.textContent = '⏳ Processing your payment…';
+    statusEl.style.color = 'var(--deep-rose)';
+    payBtn.disabled = true;
+
+    try {
+      const result = await card.tokenize();
+      if (result.status !== 'OK') {
+        statusEl.textContent = '❌ ' + (result.errors?.[0]?.message || 'Card error. Please try again.');
+        payBtn.disabled = false;
+        return;
+      }
+
+      const idempotencyKey = 'ollie-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+
+      const chargeRes = await fetch('https://connect.squareup.com/v2/payments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + ACCESS_TOKEN,
+          'Square-Version': '2024-01-18'
+        },
+        body: JSON.stringify({
+          idempotency_key: idempotencyKey,
+          source_id: result.token,
+          amount_money: { amount: Math.round(total * 100), currency: 'USD' },
+          location_id: LOCATION_ID,
+          note: buildOrderNote()
+        })
+      });
+
+      const chargeData = await chargeRes.json();
+
+      if (chargeData.payment && chargeData.payment.status === 'COMPLETED') {
+        statusEl.innerHTML = '🎉 Payment successful! Thank you — come grab your treats! 🦦🍪🧁';
+        statusEl.style.color = '#2e7d32';
+        payBtn.textContent = '✅ Paid!';
+        document.querySelectorAll('.qty-num').forEach(el => el.textContent = '0');
+        recalcTotal();
+      } else {
+        const errMsg = chargeData.errors?.[0]?.detail || 'Payment was not completed. Please try again.';
+        statusEl.textContent = '❌ ' + errMsg;
+        payBtn.disabled = false;
+      }
+
+    } catch(e) {
+      statusEl.textContent = '❌ Network error. Please check your connection and try again.';
+      payBtn.disabled = false;
+      console.error(e);
+    }
+  }
+
+  initSquare();
+</script>
+</body>
+</html>
